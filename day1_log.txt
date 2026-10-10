@@ -1,0 +1,30 @@
+{'temperature': 86, 'pressure': 981, 'vibration': 0.21}, HIGH_TEMP, STOP_MACHINE
+{'temperature': 50, 'pressure': 1038, 'vibration': 0.19}, LOW_VIBRATION, STOP_MACHINE
+{'temperature': 66, 'pressure': 960, 'vibration': 0.88}, LOW_PRESSURE, STOP_MACHINE
+{'temperature': 71, 'pressure': 956, 'vibration': 0.7}, LOW_PRESSURE, STOP_MACHINE
+{'temperature': 71, 'pressure': 995, 'vibration': 0.29}, LOW_PRESSURE, STOP_MACHINE
+{'temperature': 54, 'pressure': 1006, 'vibration': 0.68}, NO_RULE_FIRED, CONTINUE_NORMAL
+{'temperature': 80, 'pressure': 961, 'vibration': 0.35}, LOW_PRESSURE, STOP_MACHINE
+{'temperature': 90, 'pressure': 961, 'vibration': 0.68}, HIGH_TEMP, STOP_MACHINE
+{'temperature': 72, 'pressure': 1025, 'vibration': 0.99}, NO_RULE_FIRED, CONTINUE_NORMAL
+{'temperature': 74, 'pressure': 1037, 'vibration': 0.19}, LOW_VIBRATION, STOP_MACHINE
+{'temperature': 67, 'pressure': 1026, 'vibration': 0.59}, NO_RULE_FIRED, CONTINUE_NORMAL
+{'temperature': 54, 'pressure': 959, 'vibration': 0.06}, LOW_PRESSURE, STOP_MACHINE
+{'temperature': 62, 'pressure': 953, 'vibration': 0.36}, LOW_PRESSURE, STOP_MACHINE
+{'temperature': 70, 'pressure': 966, 'vibration': 0.4}, LOW_PRESSURE, STOP_MACHINE
+{'temperature': 75, 'pressure': 962, 'vibration': 0.99}, LOW_PRESSURE, STOP_MACHINE
+{'temperature': 62, 'pressure': 1047, 'vibration': 0.56}, NO_RULE_FIRED, CONTINUE_NORMAL
+{'temperature': 86, 'pressure': 1028, 'vibration': 0.21}, HIGH_TEMP, STOP_MACHINE
+{'temperature': 76, 'pressure': 1039, 'vibration': 0.18}, LOW_VIBRATION, STOP_MACHINE
+{'temperature': 67, 'pressure': 953, 'vibration': 0.17}, LOW_PRESSURE, STOP_MACHINE
+{'temperature': 56, 'pressure': 1043, 'vibration': 0.36}, NO_RULE_FIRED, CONTINUE_NORMAL
+{'temperature': 56, 'pressure': 1040, 'vibration': 0.36, 'current': 8.71}, HIGH_CURRENT, STOP_MACHINE
+{'temperature': 87, 'pressure': 1033, 'vibration': 0.44, 'current': 9.94}, HIGH_TEMP, STOP_MACHINE
+{'temperature': 67, 'pressure': 1017, 'vibration': 0.24, 'current': 8.17}, LOW_VIBRATION, STOP_MACHINE
+{'temperature': 62, 'pressure': 1040, 'vibration': 0.92, 'current': 7.73}, HIGH_VIBRATION, STOP_MACHINE
+{'temperature': 59, 'pressure': 977, 'vibration': 0.54, 'current': 8.5}, LOW_PRESSURE, STOP_MACHINE
+{'temperature': 69, 'pressure': 1009, 'vibration': 0.67, 'current': 1.77}, LOW_CURRENT, STOP_MACHINE
+{'temperature': 80, 'pressure': 951, 'vibration': 0.02, 'current': 9.01}, LOW_PRESSURE, STOP_MACHINE
+{'temperature': 66, 'pressure': 1022, 'vibration': 0.67, 'current': 9.1}, HIGH_CURRENT, STOP_MACHINE
+{'temperature': 70, 'pressure': 1004, 'vibration': 0.78, 'current': 8.46}, HIGH_VIBRATION, STOP_MACHINE
+{'temperature': 75, 'pressure': 1029, 'vibration': 0.11, 'current': 6.76}, LOW_VIBRATION, STOP_MACHINE
