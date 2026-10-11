@@ -24,10 +24,10 @@ def generate_sensor_data():
     """Return a dict with at least 'temperature', 'pressure', 'vibration'."""
     # TODO: fill in realistic random values, e.g. temperature 50-95 (deg C)
     return {
-        "temperature": round(random.uniform(50,95)),   # TODO
-        "pressure": round(random.uniform(950,1050)),      # TODO
-        "vibration": round(random.uniform(0,1),2), 
-        "current": round(random.uniform(0,10),2)            # TODO
+        "temperature": round(random.uniform(20,95)),   # TODO
+        "pressure": round(random.uniform(900, 1100)),    # TODO
+        "vibration": round(random.uniform(0, 2), 2),    # TODO
+        "current" : round(random.uniform(0, 30), 2)
     }
     # STRETCH GOAL (after the 8 steps below all work): real sensors aren't
     # perfectly clean. Try making one field randomly return None (a
@@ -43,13 +43,23 @@ def generate_sensor_data():
 RULES = [
     # TODO: add rule dicts like:
     {"name": "HIGH_TEMP", "priority": 1, "condition": lambda r: r["temperature"] > 80, "action": "STOP_MACHINE"},
-    {"name": "LOW_TEMP", "priority": 1, "condition": lambda r: r["temperature"] < 50, "action": "STOP_MACHINE"},
-    {"name": "HIGH_PRESSURE", "priority": 2, "condition": lambda r: r["pressure"] > 1050, "action": "STOP_MACHINE"},
-    {"name": "LOW_PRESSURE", "priority": 2, "condition": lambda r: r["pressure"] < 1000, "action": "STOP_MACHINE"},
-    {"name": "HIGH_VIBRATION", "priority": 3, "condition": lambda r: r["vibration"] > 0.7, "action": "STOP_MACHINE"},
-    {"name": "LOW_VIBRATION", "priority": 3, "condition": lambda r: r["vibration"] < 0.3, "action": "STOP_MACHINE"},
-    {"name": "HIGH_CURRENT", "priority": 4, "condition": lambda r: r["current"] > 8, "action": "STOP_MACHINE"},
-    {"name": "LOW_CURRENT", "priority": 4, "condition": lambda r: r["current"] < 2, "action": "STOP_MACHINE"},
+    {"name": "LOW_TEMP", "priority": 1, "condition": lambda r: r["temperature"] < 30, "action": "STOP_MACHINE"},
+    {"name": "LOW_PRESSURE", "priority": 2, "condition": lambda r: r["pressure"] > 1050, "action": "STOP_MACHINE"},
+    {"name": "HIGH_PRESSURE", "priority": 2, "condition": lambda r: r["pressure"] < 950, "action": "STOP_MACHINE"},
+    {"name": "LOW_VIBRATION", "priority": 3, "condition": lambda r: r["vibration"] < 0.2, "action": "STOP_MACHINE"},
+    {"name": "HIGH_VIBRATION", "priority": 3, "condition": lambda r: r["vibration"] > 1.8, "action": "STOP_MACHINE"},
+    {"name": "HIGH_CURRENT", "priority": 1, "condition": lambda r: r["current"] > 25, "action": "STOP_MACHINE"},
+    {"name": "LOW_CURRENT", "priority": 1, "condition": lambda r: r["current"] < 5, "action": "STOP_MACHINE"},
+
+
+    {"name": "HIGH_TEMP", "priority": 1, "condition": lambda r: r["temperature"] > 70, "action": "WARNING"},
+    {"name": "LOW_TEMP", "priority": 1, "condition": lambda r: r["temperature"] < 40, "action": "WARNING"},
+    {"name": "LOW_PRESSURE", "priority": 2, "condition": lambda r: r["pressure"] > 1030, "action": "WARNING"},
+    {"name": "HIGH_PRESSURE", "priority": 2, "condition": lambda r: r["pressure"] < 980, "action": "WARNING"},
+    {"name": "LOW_VIBRATION", "priority": 3, "condition": lambda r: r["vibration"] < 0.4, "action": "WARNING"},
+    {"name": "HIGH_VIBRATION", "priority": 3, "condition": lambda r: r["vibration"] > 1.6, "action": "WARNING"},
+    {"name": "HIGH_CURRENT", "priority": 1, "condition": lambda r: r["current"] > 22, "action": "WARNING"},
+    {"name": "LOW_CURRENT", "priority": 1, "condition": lambda r: r["current"] < 8, "action": "WARNING"},
 ]
 
 
@@ -61,21 +71,31 @@ def evaluate_rules(reading, rules):
     priority order (lowest number first). If nothing matches, return
     ("NO_RULE_FIRED", "CONTINUE_NORMAL")."""
     # TODO: sort `rules` by priority, then check each rule's condition(reading)
-    sorted_rules = sorted(rules, key=lambda r: r["priority"])
-    for rule in sorted_rules:
+
+    required_sensors= ["temperature","vibration","pressure","current"]
+    missing= [sensor for sensor in required_sensors if sensor not in reading or sensor is None]
+    if missing:
+        return "MISSING_SENSOR_DATA", "IGNORE"
+    for rule in sorted(rules, key=lambda r: r["priority"]):
         if rule["condition"](reading):
-            return rule["name"], rule["action"] 
+            return rule["name"], rule["action"]
     return "NO_RULE_FIRED", "CONTINUE_NORMAL"
 
 
 # ---------------------------------------------------------------------------
 # STEP 4 — Trigger an action when a rule fires
 # ---------------------------------------------------------------------------
+message_map = {
+    "STOP_MACHINE": "[STOP_MACHINE] The machine has been stopped due to a safety violation.",
+    "CONTINUE_NORMAL": "[CONTINUE_NORMAL] The machine is operating normally.",
+    "WARNING": "[WARNING] The machine is operating with warnings."
+}
 def take_action(action):
     """Return a human-readable string describing what happens for this action."""
     # TODO: map action names (e.g. "STOP_MACHINE") to a message
-    if action == "STOP_MACHINE":
-        return "The machine has been stopped due to a safety rule violation."                       
+    for action_name, message in message_map.items():
+        if action_name == action:
+            return message
     return f"(no handler yet for action: {action})"
 
 
@@ -86,7 +106,7 @@ def log_decision(reading, rule_name, action):
     """Append one line to LOG_FILE with the reading, rule fired, and action."""
     # TODO: open(LOG_FILE, "a") and write a line
     with open(LOG_FILE, "a") as f:
-        f.write(f"{reading}, {rule_name}, {action}\n")      
+        f.write(f"Reading: {reading}, Rule Fired: {rule_name}, Action: {action}\n")
     pass
 
 
@@ -97,17 +117,29 @@ def log_decision(reading, rule_name, action):
 
 
 def main():
-    for tick in range(1, 11):
-        reading = generate_sensor_data()
-        rule_name, action = evaluate_rules(reading, RULES)
-        outcome = take_action(action)
+    machine_alert=[0]*5
+    max_count=0
+    for machine in range(5):
+        count=0
+        for tick in range(1, 11):
+            reading = generate_sensor_data()
+            rule_name, action = evaluate_rules(reading, RULES)
+            outcome = take_action(action)
 
-        print(f"[Tick {tick:02d}] SENSE -> {reading}")
-        print(f"           THINK -> {rule_name}")
-        print(f"           ACT   -> {outcome}\n")
+            print(f"[Tick {tick:02d}] SENSE -> {reading}")
+            print(f"           THINK -> {rule_name}")
+            print(f"           ACT   -> {outcome}\n")
 
-        log_decision(reading, rule_name, action)
-        time.sleep(0.2)
+            if action != "CONTINUE_NORMAL" and action != "WARNING":
+                count+=1
+
+            log_decision(reading, rule_name, action)
+            time.sleep(0.2)
+        if count >= max_count:
+            max_count=count
+            machine_alert[machine]=count
+
+    print("Immediate action required on Machine",*[i+1 for i in range(len(machine_alert)) if machine_alert[i]==max_count])
 
 
 if __name__ == "__main__":
