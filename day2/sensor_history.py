@@ -61,7 +61,7 @@ def evaluate_rules(reading, rules):
 
 
 MESSAGE_MAP = {
-    "STOP_MACHINE": "Warning",
+    "STOP_MACHINE": "Stop Machine",
     "WARNING": "Warning",
     "CONTINUE_NORMAL": "Normal",
     "IGNORE": "Normal",

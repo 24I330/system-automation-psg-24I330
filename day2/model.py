@@ -5,7 +5,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 
-DATA_FILE=Path(__file__).parent / "data" / "day2_sample.csv"
+DATA_FILE=Path(__file__).parent /"data" /"day2_sample.csv"
 
 def train_model():
     df=pd.read_csv(DATA_FILE)
