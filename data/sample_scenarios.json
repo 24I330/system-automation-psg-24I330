@@ -1,0 +1,7 @@
+[
+  {"id":"SAFE_CASE","torque_nm":42,"temperature_c":44,"vibration_mm_s":2},
+  {"id":"WATCH_CASE","torque_nm":70,"temperature_c":60,"vibration_mm_s":3.8},
+  {"id":"MAINTENANCE_CASE","torque_nm":80,"temperature_c":75,"vibration_mm_s":6},
+  {"id":"EMERGENCY_CASE","torque_nm":96,"temperature_c":50,"vibration_mm_s":2},
+  {"id":"SPOOF_CASE","torque_nm":8,"temperature_c":76,"vibration_mm_s":7}
+]

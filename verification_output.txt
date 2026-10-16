@@ -1,0 +1,18 @@
+MAIN OUTPUT
+=== Robotic Arm Joint Health Monitor ===
+Validation accuracy: 0.800
+Confusion matrix: [[12, 3], [3, 12]]
+DEMO-SAFE: SAFE
+  details: {'wear_probability': 0.047}
+DEMO-MONITOR: MONITOR
+  details: {'wear_probability': 0.712, 'log_keywords': [], 'warnings': ['torque_nm entered watch range (70.0)']}
+ARM-05: SCHEDULE_MAINTENANCE
+  details: {'wear_probability': 0.909, 'log_keywords': ['lubrication']}
+DEMO-STOP: EMERGENCY_STOP
+  details: {'reason': ['torque_nm reached hard limit (96.0)']}
+DEMO-SPOOF: EMERGENCY_STOP
+  details: {'reason': ['torque is unusually low while temperature and vibration are high']}
+
+TEST OUTPUT
+....                                                                     [100%]
+4 passed in 1.63s
